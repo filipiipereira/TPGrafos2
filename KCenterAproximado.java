@@ -28,7 +28,7 @@ public class KCenterAproximado {
             return -1;
         }
 
-        System.out.println("\n--- Iniciando Solução Aproximada (Gonzalez) ---");
+        // System.out.println("\n--- Iniciando Solução Aproximada (Gonzalez) ---");
 
         // Conjunto C: Armazena os vértices escolhidos como centros.
         Set<Integer> centrosEscolhidos = new HashSet<>();
@@ -46,7 +46,7 @@ public class KCenterAproximado {
             distanciasMinimas[i] = distancias[i][centroInicial];
         }
         
-        System.out.println("Selecionado Centro #1: Vértice " + centroInicial + " (Inicial)");
+        //System.out.println("Selecionado Centro #1: Vértice " + centroInicial + " (Inicial)");
 
         // --- Loop Principal: Selecionar k-1 centros restantes ---
         for (int k_iter = 1; k_iter < K; k_iter++) {
@@ -75,8 +75,8 @@ public class KCenterAproximado {
                     distanciasMinimas[i] = Math.min(distanciasMinimas[i], distancias[i][proximoCentro]);
                 }
                 
-                System.out.println("Selecionado Centro #" + (k_iter + 1) + ": Vértice " + proximoCentro + 
-                                   " | Distância Máxima atual: " + maxDistanciaAtual);
+                //System.out.println("Selecionado Centro #" + (k_iter + 1) + ": Vértice " + proximoCentro + 
+                                   //" | Distância Máxima atual: " + maxDistanciaAtual);
             }
         }
         
@@ -88,9 +88,9 @@ public class KCenterAproximado {
             raioFinal = Math.max(raioFinal, distanciasMinimas[i]);
         }
         
-        System.out.println("--- Solução Gulosa de Gonzalez Concluída ---");
-        System.out.println("Centros Escolhidos: " + centrosEscolhidos);
-        System.out.println("Raio Aproximado (Distância Máxima): " + raioFinal);
+        //System.out.println("--- Solução Gulosa de Gonzalez Concluída ---");
+        //System.out.println("Centros Escolhidos: " + centrosEscolhidos);
+        //System.out.println("Raio Aproximado (Distância Máxima): " + raioFinal);
 
         return raioFinal;
     }

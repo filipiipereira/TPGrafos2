@@ -28,14 +28,14 @@ public class KCenterExato {
             return -1;
         }
 
-        System.out.println("\n--- Iniciando Solução Exata k-Centros (Enumeração) ---");
+        //System.out.println("\n--- Iniciando Solução Exata k-Centros (Enumeração) ---");
         
         // Chama a função recursiva para gerar combinações
         encontrarCombustaoRecursiva(1, new ArrayList<>());
         
-        System.out.println("--- Enumeração Concluída ---");
-        System.out.println("Centros Ótimos: " + melhorCentros);
-        System.out.println("Raio Mínimo Ótimo (Distância Máxima): " + raioMinimo);
+        //System.out.println("--- Enumeração Concluída ---");
+        //System.out.println("Centros Ótimos: " + melhorCentros);
+        //System.out.println("Raio Mínimo Ótimo (Distância Máxima): " + raioMinimo);
         
         return raioMinimo;
     }

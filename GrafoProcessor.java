@@ -35,11 +35,11 @@ public class GrafoProcessor {
             numArestas = Integer.parseInt(st.nextToken());
             k_centros = Integer.parseInt(st.nextToken());
 
-            System.out.println("--- Parâmetros Lidos ---");
-            System.out.println("Vértices (n): " + numVertices);
-            System.out.println("Arestas Iniciais: " + numArestas);
-            System.out.println("Centros (k): " + k_centros);
-            System.out.println("------------------------");
+            //System.out.println("--- Parâmetros Lidos ---");
+            //System.out.println("Vértices (n): " + numVertices);
+            //System.out.println("Arestas Iniciais: " + numArestas);
+            //System.out.println("Centros (k): " + k_centros);
+            //System.out.println("------------------------");
 
             int[][] custos = new int[numVertices + 1][numVertices + 1]; 
 
