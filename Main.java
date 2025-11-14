@@ -12,17 +12,6 @@ public class Main {
 
         GrafoProcessor processor = new GrafoProcessor();
 
-        // Listas de resultados
-        List<Integer> raiosAprox = new ArrayList<>();
-        List<Double> temposAprox = new ArrayList<>();
-        List<Double> errosAprox = new ArrayList<>();
-        List<List<Integer>> centrosAprox = new ArrayList<>();
-
-        List<Integer> raiosExato = new ArrayList<>();
-        List<Double> temposExato = new ArrayList<>();
-        List<Double> errosExato = new ArrayList<>();
-        List<List<Integer>> centrosExato = new ArrayList<>();
-
         // Leitura do gabarito
         List<Integer> gabarito = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("gab.txt"))) {
@@ -73,29 +62,19 @@ public class Main {
                 List<Integer> centros = (resultadoAprox != null) ? resultadoAprox.centros : new ArrayList<>();
                 double erro = (raio >= 0) ? calcularErroPercentual(raio, gabarito.get(i)) : -1.0;
 
-                raiosAprox.add(raio);
-                temposAprox.add(tempoMs);
-                errosAprox.add(erro);
-                centrosAprox.add(centros);
-
                 System.out.printf(" %s -> Raio = %d | Tempo = %.3f ms | Erro = %.2f%%%n",
                         arquivo, raio, tempoMs, erro);
 
                 // --- ESCREVER RESULTADOS APROXIMADOS ---
-                bwAprox.write(String.format("%s,%d,%.3f,%.3f,%s\n",
+                bwAprox.write(String.format(Locale.US,"%s,%d,%.3f,%.3f,%s\n",
                         arquivo, raio, tempoMs, erro, centros));
                 bwAprox.flush();
 
             } catch (IOException e) {
                 System.err.printf(" ERRO ao processar %s%n", arquivo);
 
-                raiosAprox.add(-1);
-                temposAprox.add(-1.0);
-                errosAprox.add(-1.0);
-                centrosAprox.add(new ArrayList<>());
-
                 try {
-                    bwAprox.write(String.format("%s,-1,-1,-1,[]\n", arquivo));
+                    bwAprox.write(String.format(Locale.US,"%s,-1,-1,-1,[]\n", arquivo));
                     bwAprox.flush();
                 } catch (IOException ignored) {}
             }
@@ -123,29 +102,19 @@ public class Main {
                 List<Integer> centros = (resultadoExato != null) ? resultadoExato.centros : new ArrayList<>();
                 double erro = (raio >= 0) ? calcularErroPercentual(raio, gabarito.get(i)) : -1.0;
 
-                raiosExato.add(raio);
-                temposExato.add(tempoMs);
-                errosExato.add(erro);
-                centrosExato.add(centros);
-
                 System.out.printf(" %s -> Raio = %d | Tempo = %.3f ms | Erro = %.2f%%%n",
                         arquivo, raio, tempoMs, erro);
 
                 // --- ESCREVER RESULTADOS EXATOS ---
-                bwExato.write(String.format("%s,%d,%.3f,%.3f,%s\n",
+                bwExato.write(String.format(Locale.US, "%s,%d,%.3f,%.3f,%s\n",
                         arquivo, raio, tempoMs, erro, centros));
                 bwExato.flush();
 
             } catch (IOException e) {
                 System.err.printf(" ERRO ao processar %s%n", arquivo);
 
-                raiosExato.add(-1);
-                temposExato.add(-1.0);
-                errosExato.add(-1.0);
-                centrosExato.add(new ArrayList<>());
-
                 try {
-                    bwExato.write(String.format("%s,-1,-1,-1,[]\n", arquivo));
+                    bwExato.write(String.format(Locale.US,"%s,-1,-1,-1,[]\n", arquivo));
                     bwExato.flush();
                 } catch (IOException ignored) {}
             }
