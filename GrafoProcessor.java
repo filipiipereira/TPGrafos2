@@ -35,17 +35,12 @@ public class GrafoProcessor {
             numArestas = Integer.parseInt(st.nextToken());
             k_centros = Integer.parseInt(st.nextToken());
 
-            //System.out.println("--- Parâmetros Lidos ---");
-            //System.out.println("Vértices (n): " + numVertices);
-            //System.out.println("Arestas Iniciais: " + numArestas);
-            //System.out.println("Centros (k): " + k_centros);
-            //System.out.println("------------------------");
 
-            int[][] custos = new int[numVertices + 1][numVertices + 1]; 
+            int[][] dist = new int[numVertices + 1][numVertices + 1]; 
 
             for (int i = 1; i <= numVertices; i++) {
-                Arrays.fill(custos[i], INFINITO);
-                custos[i][i] = 0;
+                Arrays.fill(dist[i], INFINITO);
+                dist[i][i] = 0;
             }
 
             String linha;
@@ -58,8 +53,8 @@ public class GrafoProcessor {
                     int j = Integer.parseInt(st.nextToken());
                     int k = Integer.parseInt(st.nextToken());
 
-                    custos[i][j] = k;
-                    custos[j][i] = k;
+                    dist[i][j] = k;
+                    dist[j][i] = k;
                 } catch (NumberFormatException | java.util.NoSuchElementException e) {
                     System.err.println("Aviso: Linha de aresta inválida ignorada.");
                 }
@@ -69,16 +64,15 @@ public class GrafoProcessor {
             for (int k = 1; k <= numVertices; k++) {
                 for (int i = 1; i <= numVertices; i++) {
                     for (int j = 1; j <= numVertices; j++) {
-                        if (custos[i][k] != INFINITO && custos[k][j] != INFINITO) {
-                            if (custos[i][j] > custos[i][k] + custos[k][j]) {
-                                custos[i][j] = custos[i][k] + custos[k][j];
+                            if (dist[i][j] > dist[i][k] + dist[k][j]) {
+                                dist[i][j] = dist[i][k] + dist[k][j];
                             }
-                        }
+                        
                     }
                 }
             }
             
-            return new DadosGrafo(custos, k_centros); // Retorna a matriz e o valor de p
+            return new DadosGrafo(dist, k_centros); // Retorna a matriz e o valor de p
 
         } catch (IOException e) {
             System.err.println("Erro ao ler o arquivo: " + nomeArquivo + " | " + e.getMessage());

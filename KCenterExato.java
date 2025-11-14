@@ -22,22 +22,16 @@ public class KCenterExato {
      * Inicia o processo de enumeração exaustiva para encontrar o Raio Ótimo.
      * @return O raio ótimo (mínimo da distância máxima) encontrado.
      */
-    public int encontrarSolucaoExata() {
+    public Resultado encontrarSolucaoExata() {
         if (K > N) {
             System.err.println("Erro: k não pode ser maior que o número de vértices N.");
-            return -1;
+            return null;
         }
 
-        //System.out.println("\n--- Iniciando Solução Exata k-Centros (Enumeração) ---");
-        
         // Chama a função recursiva para gerar combinações
         encontrarCombustaoRecursiva(1, new ArrayList<>());
         
-        //System.out.println("--- Enumeração Concluída ---");
-        //System.out.println("Centros Ótimos: " + melhorCentros);
-        //System.out.println("Raio Mínimo Ótimo (Distância Máxima): " + raioMinimo);
-        
-        return raioMinimo;
+        return new Resultado(raioMinimo, melhorCentros);
     }
 
     private void encontrarCombustaoRecursiva(int proximoCandidato, List<Integer> centrosAtuais) {
