@@ -4,6 +4,7 @@ import java.util.*;
 public class Main {
 
     public static void main(String[] args) {
+
         List<String> arquivos = new ArrayList<>();
         for (int i = 1; i <= 40; i++) {
             arquivos.add("pmed" + i + ".txt");
@@ -22,7 +23,7 @@ public class Main {
         List<Double> errosExato = new ArrayList<>();
         List<List<Integer>> centrosExato = new ArrayList<>();
 
-        // Leitura do gabarito (gab.txt)
+        // Leitura do gabarito
         List<Integer> gabarito = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("gab.txt"))) {
             String linha;
@@ -34,14 +35,30 @@ public class Main {
             return;
         }
 
+        BufferedWriter bwAprox, bwExato;
+        try {
+            bwAprox = new BufferedWriter(new FileWriter("resultados_aprox.txt"));
+            bwExato = new BufferedWriter(new FileWriter("resultados_exato.txt"));
+
+            bwAprox.write("Instancia,Raio,Tempo_ms,Erro_pct,Centros\n");
+            bwExato.write("Instancia,Raio,Tempo_ms,Erro_pct,Centros\n");
+
+            bwAprox.flush();
+            bwExato.flush();
+        } catch (IOException e) {
+            System.err.println("ERRO ao abrir arquivos de resultados.");
+            return;
+        }
+
         
-        // SOLUÇÃO APROXIMADA (Gonzalez)
+        // SOLUÇÃO APROXIMADA
         System.out.println("\n===============================================");
         System.out.println(" SOLUÇÃO APROXIMADA (Gonzalez)");
         System.out.println("===============================================");
 
         for (int i = 0; i < arquivos.size(); i++) {
             String arquivo = arquivos.get(i);
+
             try {
                 DadosGrafo dados = processor.processarDados(arquivo);
                 int k = dados.k;
@@ -61,24 +78,37 @@ public class Main {
                 errosAprox.add(erro);
                 centrosAprox.add(centros);
 
-                System.out.printf(" %s -> Raio = %d | Tempo = %.3f ms | Erro = %.2f%% | Centros = %s%n",
-                    arquivo, raio, tempoMs, erro, centros);
+                System.out.printf(" %s -> Raio = %d | Tempo = %.3f ms | Erro = %.2f%%%n",
+                        arquivo, raio, tempoMs, erro);
+
+                // --- ESCREVER RESULTADOS APROXIMADOS ---
+                bwAprox.write(String.format("%s,%d,%.3f,%.3f,%s\n",
+                        arquivo, raio, tempoMs, erro, centros));
+                bwAprox.flush();
+
             } catch (IOException e) {
                 System.err.printf(" ERRO ao processar %s%n", arquivo);
+
                 raiosAprox.add(-1);
                 temposAprox.add(-1.0);
                 errosAprox.add(-1.0);
                 centrosAprox.add(new ArrayList<>());
+
+                try {
+                    bwAprox.write(String.format("%s,-1,-1,-1,[]\n", arquivo));
+                    bwAprox.flush();
+                } catch (IOException ignored) {}
             }
         }
 
-        // SOLUÇÃO EXATA (Enumeração Completa)
+        // SOLUÇÃO EXATA
         System.out.println("\n===============================================");
         System.out.println(" SOLUÇÃO EXATA (Enumeração Completa)");
         System.out.println("===============================================");
 
         for (int i = 0; i < arquivos.size(); i++) {
             String arquivo = arquivos.get(i);
+
             try {
                 DadosGrafo dados = processor.processarDados(arquivo);
                 int k = dados.k;
@@ -98,63 +128,38 @@ public class Main {
                 errosExato.add(erro);
                 centrosExato.add(centros);
 
-                System.out.printf(" %s -> Raio = %d | Tempo = %.3f ms | Erro = %.2f%% | Centros = %s%n",
-                    arquivo, raio, tempoMs, erro, centros);
+                System.out.printf(" %s -> Raio = %d | Tempo = %.3f ms | Erro = %.2f%%%n",
+                        arquivo, raio, tempoMs, erro);
+
+                // --- ESCREVER RESULTADOS EXATOS ---
+                bwExato.write(String.format("%s,%d,%.3f,%.3f,%s\n",
+                        arquivo, raio, tempoMs, erro, centros));
+                bwExato.flush();
+
             } catch (IOException e) {
                 System.err.printf(" ERRO ao processar %s%n", arquivo);
+
                 raiosExato.add(-1);
                 temposExato.add(-1.0);
                 errosExato.add(-1.0);
                 centrosExato.add(new ArrayList<>());
+
+                try {
+                    bwExato.write(String.format("%s,-1,-1,-1,[]\n", arquivo));
+                    bwExato.flush();
+                } catch (IOException ignored) {}
             }
         }
 
-        // RELATÓRIO FINAL
-        System.out.println("\n=======================================================");
-        System.out.println(" RELATÓRIO FINAL DE DESEMPENHO (k-Centros)");
-        System.out.println("=======================================================");
-        System.out.printf("%-10s | %-15s | %-15s | %-15s | %-15s%n",
-                "Instância", "Aprox (ms)", "Aprox Erro (%)", "Exato (ms)", "Exato Erro (%)");
-        System.out.println("--------------------------------------------------------------------------");
-
-        for (int i = 0; i < arquivos.size(); i++) {
-            System.out.printf("%-10s | %10.3f | %10.2f | %10.3f | %10.2f%n",
-                    arquivos.get(i),
-                    temposAprox.size() > i ? temposAprox.get(i) : -1.0,
-                    errosAprox.size() > i ? errosAprox.get(i) : -1.0,
-                    temposExato.size() > i ? temposExato.get(i) : -1.0,
-                    errosExato.size() > i ? errosExato.get(i) : -1.0);
-        }
-
-        // Escrever resultados em arquivo
-        try (BufferedWriter bw = new BufferedWriter(new FileWriter("resultados.txt"))) {
-            bw.write("Instancia,Aprox_Raio,Aprox_Tempo_ms,Aprox_Erro_pct,Aprox_Centros,Exato_Raio,Exato_Tempo_ms,Exato_Erro_pct,Exato_Centros\n");
-            for (int i = 0; i < arquivos.size(); i++) {
-                String inst = arquivos.get(i);
-                int raioA = raiosAprox.size() > i ? raiosAprox.get(i) : -1;
-                double tempoA = temposAprox.size() > i ? temposAprox.get(i) : -1.0;
-                double erroA = errosAprox.size() > i ? errosAprox.get(i) : -1.0;
-                List<Integer> cA = centrosAprox.size() > i ? centrosAprox.get(i) : new ArrayList<>();
-
-                int raioE = raiosExato.size() > i ? raiosExato.get(i) : -1;
-                double tempoE = temposExato.size() > i ? temposExato.get(i) : -1.0;
-                double erroE = errosExato.size() > i ? errosExato.get(i) : -1.0;
-                List<Integer> cE = centrosExato.size() > i ? centrosExato.get(i) : new ArrayList<>();
-
-                bw.write(String.format("%s,%d,%.3f,%.3f,%s,%d,%.3f,%.3f,%s\n",
-                        inst,
-                        raioA,
-                        tempoA,
-                        erroA,
-                        cA.toString(),
-                        raioE,
-                        tempoE,
-                        erroE,
-                        cE.toString()));
-            }
+        // FECHAR ARQUIVOS
+        try {
+            bwAprox.close();
+            bwExato.close();
         } catch (IOException e) {
-            System.err.println("ERRO ao gravar resultados.txt: " + e.getMessage());
+            System.err.println("ERRO ao fechar arquivos de resultados.");
         }
+
+        System.out.println("\nArquivos resultados_aprox.txt e resultados_exato.txt salvos com sucesso.");
     }
 
     private static double calcularErroPercentual(int valor, int gabarito) {

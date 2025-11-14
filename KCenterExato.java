@@ -29,12 +29,12 @@ public class KCenterExato {
         }
 
         // Chama a função recursiva para gerar combinações
-        encontrarCombustaoRecursiva(1, new ArrayList<>());
+        encontrarCombinacaoRecursiva(1, new ArrayList<>());
         
         return new Resultado(raioMinimo, melhorCentros);
     }
 
-    private void encontrarCombustaoRecursiva(int proximoCandidato, List<Integer> centrosAtuais) {
+    private void encontrarCombinacaoRecursiva(int proximoCandidato, List<Integer> centrosAtuais) {
         
         // 1. Caso Base: Se já selecionamos K centros
         if (centrosAtuais.size() == K) {
@@ -58,13 +58,13 @@ public class KCenterExato {
         
         // OPÇÃO A: Incluir o vértice 'proximoCandidato' como centro
         centrosAtuais.add(proximoCandidato);
-        encontrarCombustaoRecursiva(proximoCandidato + 1, centrosAtuais);
+        encontrarCombinacaoRecursiva(proximoCandidato + 1, centrosAtuais);
         
         // Backtracking
         centrosAtuais.remove(centrosAtuais.size() - 1); 
 
         // OPÇÃO B: Não incluir o vértice 'proximoCandidato' como centro
-        encontrarCombustaoRecursiva(proximoCandidato + 1, centrosAtuais);
+        encontrarCombinacaoRecursiva(proximoCandidato + 1, centrosAtuais);
     }
     
     /**
