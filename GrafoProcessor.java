@@ -10,10 +10,10 @@ import java.util.StringTokenizer;
  */
 class DadosGrafo {
 
-    /** Matriz de distâncias entre vértices após Floyd-Warshall. */
+    // Matriz de distâncias entre vértices após Floyd-Warshall. 
     public final int[][] matrizDistancias;
 
-    /** Quantidade de centros (k) definida no arquivo de entrada. */
+    // Quantidade de centros (k) definida no arquivo de entrada.
     public final int k;
 
     /**
@@ -34,7 +34,7 @@ class DadosGrafo {
  */
 public class GrafoProcessor {
 
-    /** Valor utilizado para representar distância infinita. */
+    // Valor utilizado para representar distância infinita.
     private static final int INFINITO = Integer.MAX_VALUE / 2;
 
     /**

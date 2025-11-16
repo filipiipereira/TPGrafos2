@@ -5,12 +5,12 @@ import java.util.*;
  * Classe principal responsável pela execução dos experimentos do Problema dos k-Centros,
  * aplicando tanto o algoritmo aproximado de Gonzalez quanto o método exato por enumeração.
  *
- * <p>O programa processa 40 instâncias no formato "pmedX.txt", compara os resultados
+ * O programa processa 40 instâncias no formato "pmedX.txt", compara os resultados
  * com os valores ótimos presentes no arquivo "gab.txt" e exporta os resultados em dois
- * arquivos: {@code resultados_aprox.txt} e {@code resultados_exato.txt}.</p>
+ * arquivos: {@code resultados_aprox.txt} e {@code resultados_exato.txt}.
  *
- * <p>Cada linha dos arquivos de saída contém: Instância, Raio obtido, Tempo de execução,
- * Erro percentual em relação ao gabarito e os centros escolhidos.</p>
+ * Cada linha dos arquivos de saída contém: Instância, Raio obtido, Tempo de execução,
+ * Erro percentual em relação ao gabarito e os centros escolhidos.
  */
 public class Main {
 
@@ -150,7 +150,7 @@ public class Main {
     /**
      * Calcula o erro percentual entre um valor obtido e seu valor ótimo.
      *
-     * <p>Erro(%) = |valor - gabarito| / gabarito * 100</p>
+     * Erro(%) = |valor - gabarito| / gabarito * 100
      *
      * @param valor valor obtido pelo algoritmo.
      * @param gabarito valor ótimo esperado.

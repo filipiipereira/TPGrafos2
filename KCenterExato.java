@@ -5,28 +5,28 @@ import java.util.List;
  * Implementação exata do Problema dos k-Centros utilizando
  * enumeração completa (força bruta com poda).
  *
- * <p>O algoritmo avalia todas as combinações possíveis de K centros
+ * O algoritmo avalia todas as combinações possíveis de K centros
  * dentre N vértices, calculando o raio de cada combinação.
- * O menor raio é considerado a solução ótima.</p>
+ * O menor raio é considerado a solução ótima.
  *
- * <p>Esta implementação utiliza poda simples para reduzir o espaço
- * de busca quando não é mais possível completar um conjunto de centros.</p>
+ * Esta implementação utiliza poda simples para reduzir o espaço
+ * de busca quando não é mais possível completar um conjunto de centros.
  */
 public class KCenterExato {
 
-    /** Matriz de distâncias entre os vértices (1-indexada). */
+    // Matriz de distâncias entre os vértices (1-indexada). 
     private final int[][] distancias;
 
-    /** Número total de vértices do grafo. */
+    // Número total de vértices do grafo.
     private final int N;
 
-    /** Número de centros a serem selecionados (K). */
+    // Número de centros a serem selecionados (K).
     private final int K;
 
-    /** Menor raio encontrado até o momento durante a enumeração. */
+    // Menor raio encontrado até o momento durante a enumeração.
     private int raioMinimo = Integer.MAX_VALUE;
 
-    /** Lista de centros correspondente ao menor raio encontrado. */
+    // Lista de centros correspondente ao menor raio encontrado.
     private List<Integer> melhorCentros = new ArrayList<>();
 
     /**
@@ -47,9 +47,9 @@ public class KCenterExato {
      * Inicia o processo de busca exata da solução ótima
      * do Problema dos k-Centros.
      *
-     * <p>A função gera todas as combinações possíveis de K centros,
+     * A função gera todas as combinações possíveis de K centros,
      * calcula o raio de cada combinação e escolhe a combinação com
-     * menor raio (distância máxima).</p>
+     * menor raio (distância máxima).
      *
      * @return objeto {@link Resultado} contendo o raio ótimo e os centros
      *         selecionados; retorna {@code null} caso K seja maior que N.
@@ -107,10 +107,8 @@ public class KCenterExato {
     /**
      * Calcula o raio da solução para um conjunto específico de centros.
      *
-     * <p>O raio é definido como:</p>
-     * <pre>
+     * O raio é definido como:
      * Raio = max para cada vértice i ( min distância entre i e qualquer centro j )
-     * </pre>
      *
      * @param centros lista de vértices escolhidos como centros.
      * @return o raio correspondente à solução testada.

@@ -6,22 +6,22 @@ import java.util.List;
  * Implementação do algoritmo aproximado de Gonzalez para o
  * Problema dos k-Centros.
  *
- * <p>O objetivo é escolher K centros de forma que a maior distância
+ * O objetivo é escolher K centros de forma que a maior distância
  * de qualquer vértice ao centro mais próximo seja minimizada.
- * O algoritmo é guloso e oferece uma solução aproximada de fator 2.</p>
+ * O algoritmo é guloso e oferece uma solução aproximada de fator 2.
  */
 public class KCenterAproximado {
 
-    /** Matriz de distâncias entre os vértices (1-indexada). */
+    // Matriz de distâncias entre os vértices (1-indexada). 
     private final int[][] distancias;
 
-    /** Número total de vértices do grafo. */
+    // Número total de vértices do grafo.
     private final int N;
 
-    /** Quantidade de centros a serem escolhidos (K). */
+    // Quantidade de centros a serem escolhidos (K).
     private final int K;
 
-    /** Valor utilizado para inicialização das distâncias mínimas. */
+    // Valor utilizado para inicialização das distâncias mínimas.
     private static final int INF = Integer.MAX_VALUE / 2;
 
     /**
@@ -41,18 +41,14 @@ public class KCenterAproximado {
      * Executa o algoritmo guloso de Gonzalez para encontrar uma solução
      * aproximada para o Problema dos k-Centros.
      *
-     * <p>O algoritmo funciona da seguinte forma:</p>
-     * <ol>
-     *   <li>Seleciona arbitrariamente um primeiro centro (vértice 1).</li>
-     *   <li>Para cada iteração, escolhe-se o vértice mais distante do conjunto atual de centros.</li>
-     *   <li>Atualiza-se as distâncias mínimas de cada vértice ao centro mais próximo.</li>
-     * </ol>
+     * O algoritmo funciona da seguinte forma:
+     *   -Seleciona arbitrariamente um primeiro centro (vértice 1).
+     *   -Para cada iteração, escolhe-se o vértice mais distante do conjunto atual de centros.
+     *   -Atualiza-se as distâncias mínimas de cada vértice ao centro mais próximo.
      *
      * @return objeto {@link Resultado} contendo:
-     *         <ul>
-     *             <li>O raio aproximado da solução.</li>
-     *             <li>A lista de centros escolhidos.</li>
-     *         </ul>
+     *             - O raio aproximado da solução.
+     *             - A lista de centros escolhidos.
      *         Retorna {@code null} se os parâmetros forem inválidos (ex.: K > N).
      */
     public Resultado encontrarSolucaoAproximada() {
