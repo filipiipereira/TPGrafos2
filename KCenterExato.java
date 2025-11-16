@@ -51,7 +51,7 @@ public class KCenterExato {
      * calcula o raio de cada combinação e escolhe a combinação com
      * menor raio (distância máxima).
      *
-     * @return objeto {@link Resultado} contendo o raio ótimo e os centros
+     * @return objeto Resultado contendo o raio ótimo e os centros
      *         selecionados; retorna {@code null} caso K seja maior que N.
      */
     public Resultado encontrarSolucaoExata() {

@@ -46,7 +46,7 @@ public class KCenterAproximado {
      *   -Para cada iteração, escolhe-se o vértice mais distante do conjunto atual de centros.
      *   -Atualiza-se as distâncias mínimas de cada vértice ao centro mais próximo.
      *
-     * @return objeto {@link Resultado} contendo:
+     * @return objeto Resultado contendo:
      *             - O raio aproximado da solução.
      *             - A lista de centros escolhidos.
      *         Retorna {@code null} se os parâmetros forem inválidos (ex.: K > N).

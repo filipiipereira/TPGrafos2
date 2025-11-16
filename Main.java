@@ -7,7 +7,7 @@ import java.util.*;
  *
  * O programa processa 40 instâncias no formato "pmedX.txt", compara os resultados
  * com os valores ótimos presentes no arquivo "gab.txt" e exporta os resultados em dois
- * arquivos: {@code resultados_aprox.txt} e {@code resultados_exato.txt}.
+ * arquivos: resultados_aprox.txt e resultados_exato.txt.
  *
  * Cada linha dos arquivos de saída contém: Instância, Raio obtido, Tempo de execução,
  * Erro percentual em relação ao gabarito e os centros escolhidos.
@@ -30,7 +30,6 @@ public class Main {
 
         GrafoProcessor processor = new GrafoProcessor();
 
-        // ===================== LEITURA DO GABARITO =====================
         List<Integer> gabarito = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("gab.txt"))) {
             String linha;
@@ -58,7 +57,6 @@ public class Main {
             return;
         }
 
-        // ===================== SOLUÇÃO APROXIMADA =====================
         System.out.println("\n===============================================");
         System.out.println(" SOLUÇÃO APROXIMADA (Gonzalez)");
         System.out.println("===============================================");
@@ -97,7 +95,6 @@ public class Main {
             }
         }
 
-        // ===================== SOLUÇÃO EXATA =====================
         System.out.println("\n===============================================");
         System.out.println(" SOLUÇÃO EXATA (Enumeração Completa)");
         System.out.println("===============================================");
@@ -136,7 +133,6 @@ public class Main {
             }
         }
 
-        // FECHAR ARQUIVOS
         try {
             bwAprox.close();
             bwExato.close();

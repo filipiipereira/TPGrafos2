@@ -42,7 +42,7 @@ public class GrafoProcessor {
      * constrói a matriz de distâncias e aplica o algoritmo de Floyd-Warshall.
      *
      * @param nomeArquivo caminho do arquivo de entrada.
-     * @return objeto {@link DadosGrafo} contendo a matriz de distâncias final e o valor de k.
+     * @return objeto DadosGrafo contendo a matriz de distâncias final e o valor de k.
      * @throws IOException caso o arquivo não exista, esteja vazio ou seja inválido.
      */
     public DadosGrafo processarDados(String nomeArquivo) throws IOException {
@@ -91,7 +91,6 @@ public class GrafoProcessor {
                 }
             }
 
-            // --- Algoritmo de Floyd-Warshall ---
             for (int k = 1; k <= numVertices; k++) {
                 for (int i = 1; i <= numVertices; i++) {
                     for (int j = 1; j <= numVertices; j++) {
