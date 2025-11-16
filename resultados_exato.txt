@@ -1,0 +1,1 @@
+Instancia,Raio,Tempo_ms,Erro_pct,Centros

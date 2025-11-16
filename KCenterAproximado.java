@@ -2,25 +2,58 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Implementação do algoritmo aproximado de Gonzalez para o
+ * Problema dos k-Centros.
+ *
+ * <p>O objetivo é escolher K centros de forma que a maior distância
+ * de qualquer vértice ao centro mais próximo seja minimizada.
+ * O algoritmo é guloso e oferece uma solução aproximada de fator 2.</p>
+ */
 public class KCenterAproximado {
 
+    /** Matriz de distâncias entre os vértices (1-indexada). */
     private final int[][] distancias;
-    private final int N; // Número total de vértices
-    private final int K; // Número de centros a serem escolhidos (k)
-    
-    // Constante para representar a não alocação inicial, usando um valor seguro.
+
+    /** Número total de vértices do grafo. */
+    private final int N;
+
+    /** Quantidade de centros a serem escolhidos (K). */
+    private final int K;
+
+    /** Valor utilizado para inicialização das distâncias mínimas. */
     private static final int INF = Integer.MAX_VALUE / 2;
 
+    /**
+     * Construtor da classe.
+     *
+     * @param matrizDistancias matriz NxN com as distâncias mínimas entre vértices.
+     *                         A matriz deve ser 1-indexada (posição 0 ignorada).
+     * @param k quantidade de centros a serem escolhidos.
+     */
     public KCenterAproximado(int[][] matrizDistancias, int k) {
-        this.N = matrizDistancias.length - 1; 
+        this.N = matrizDistancias.length - 1;
         this.K = k;
         this.distancias = matrizDistancias;
     }
 
     /**
-     * Implementa o Algoritmo Guloso de Gonzalez para o Problema dos k-Centros.
-     * Seleciona K centros que maximizam a distância em cada passo.
-     * * @return O Raio da Solução (distância máxima) aproximada.
+     * Executa o algoritmo guloso de Gonzalez para encontrar uma solução
+     * aproximada para o Problema dos k-Centros.
+     *
+     * <p>O algoritmo funciona da seguinte forma:</p>
+     * <ol>
+     *   <li>Seleciona arbitrariamente um primeiro centro (vértice 1).</li>
+     *   <li>Para cada iteração, escolhe-se o vértice mais distante do conjunto atual de centros.</li>
+     *   <li>Atualiza-se as distâncias mínimas de cada vértice ao centro mais próximo.</li>
+     * </ol>
+     *
+     * @return objeto {@link Resultado} contendo:
+     *         <ul>
+     *             <li>O raio aproximado da solução.</li>
+     *             <li>A lista de centros escolhidos.</li>
+     *         </ul>
+     *         Retorna {@code null} se os parâmetros forem inválidos (ex.: K > N).
      */
     public Resultado encontrarSolucaoAproximada() {
         if (K > N || N <= 0) {
@@ -28,57 +61,49 @@ public class KCenterAproximado {
             return null;
         }
 
-
-        // Conjunto C: Armazena os vértices escolhidos como centros.
+        // Lista de vértices escolhidos como centros
         List<Integer> centrosEscolhidos = new ArrayList<>();
-        
-        // Array para rastrear a distância de cada vértice i até o centro mais próximo (em C).
+
+        // Distância mínima de cada vértice ao centro mais próximo
         int[] distanciasMinimas = new int[N + 1];
         Arrays.fill(distanciasMinimas, INF);
 
-        // --- Passo 1: Escolher o Primeiro Centro Arbitrariamente (e.g., Vértice 1) ---
-        int centroInicial = 1; 
+        // --- Passo 1: Escolha arbitrária do primeiro centro ---
+        int centroInicial = 1;
         centrosEscolhidos.add(centroInicial);
-        
-        // Atualiza as distâncias mínimas para o primeiro centro
+
+        // Atualiza distâncias mínimas com base no primeiro centro
         for (int i = 1; i <= N; i++) {
             distanciasMinimas[i] = distancias[i][centroInicial];
         }
-        
 
-        // --- Loop Principal: Selecionar k-1 centros restantes ---
+        // --- Seleção gulosa dos próximos K-1 centros ---
         for (int k_iter = 1; k_iter < K; k_iter++) {
-            
+
             int proximoCentro = -1;
-            int maxDistanciaAtual = -1; // Rastreia o ponto mais distante
-            
-            // Itera por todos os vértices para encontrar o ponto 'i' que está
-            // mais distante de QUALQUER centro já escolhido (o ponto mais mal-servido).
+            int maxDistanciaAtual = -1;
+
+            // Encontra o vértice mais distante do conjunto de centros já escolhido
             for (int i = 1; i <= N; i++) {
-                
-                // Se o ponto i está mais distante do que o 'maxDistanciaAtual', 
-                // ele se torna o novo centro na próxima iteração.
                 if (distanciasMinimas[i] > maxDistanciaAtual) {
                     maxDistanciaAtual = distanciasMinimas[i];
                     proximoCentro = i;
                 }
             }
-            
-            // Se proximoCentro for o próprio centro mais distante, e ele ainda não foi escolhido...
+
+            // Adiciona o novo centro, caso válido
             if (proximoCentro != -1) {
                 centrosEscolhidos.add(proximoCentro);
-                
-                // Atualizar as distâncias mínimas para a próxima iteração
+
+                // Atualiza as distâncias mínimas para este novo centro
                 for (int i = 1; i <= N; i++) {
-                    distanciasMinimas[i] = Math.min(distanciasMinimas[i], distancias[i][proximoCentro]);
+                    distanciasMinimas[i] =
+                            Math.min(distanciasMinimas[i], distancias[i][proximoCentro]);
                 }
-                
             }
         }
-        
-        // --- Cálculo do Raio Final ---
-        // O raio é simplesmente a maior distância mínima encontrada na última iteração.
-        // Já temos o maxDistanciaAtual do último loop, mas vamos calcular de novo para garantir.
+
+        // --- Cálculo do raio final ---
         int raioFinal = 0;
         for (int i = 1; i <= N; i++) {
             raioFinal = Math.max(raioFinal, distanciasMinimas[i]);

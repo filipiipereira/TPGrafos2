@@ -1,10 +1,28 @@
 import java.io.*;
 import java.util.*;
 
+/**
+ * Classe principal responsável pela execução dos experimentos do Problema dos k-Centros,
+ * aplicando tanto o algoritmo aproximado de Gonzalez quanto o método exato por enumeração.
+ *
+ * <p>O programa processa 40 instâncias no formato "pmedX.txt", compara os resultados
+ * com os valores ótimos presentes no arquivo "gab.txt" e exporta os resultados em dois
+ * arquivos: {@code resultados_aprox.txt} e {@code resultados_exato.txt}.</p>
+ *
+ * <p>Cada linha dos arquivos de saída contém: Instância, Raio obtido, Tempo de execução,
+ * Erro percentual em relação ao gabarito e os centros escolhidos.</p>
+ */
 public class Main {
 
+    /**
+     * Método principal. Controla toda a leitura das instâncias, processamento dos algoritmos,
+     * cálculo dos erros e geração dos arquivos de saída.
+     *
+     * @param args não utilizado.
+     */
     public static void main(String[] args) {
 
+        // Lista de nomes de arquivos das 40 instâncias
         List<String> arquivos = new ArrayList<>();
         for (int i = 1; i <= 40; i++) {
             arquivos.add("pmed" + i + ".txt");
@@ -12,7 +30,7 @@ public class Main {
 
         GrafoProcessor processor = new GrafoProcessor();
 
-        // Leitura do gabarito
+        // ===================== LEITURA DO GABARITO =====================
         List<Integer> gabarito = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader("gab.txt"))) {
             String linha;
@@ -24,6 +42,7 @@ public class Main {
             return;
         }
 
+        // Arquivos de saída
         BufferedWriter bwAprox, bwExato;
         try {
             bwAprox = new BufferedWriter(new FileWriter("resultados_aprox.txt"));
@@ -39,8 +58,7 @@ public class Main {
             return;
         }
 
-        
-        // SOLUÇÃO APROXIMADA
+        // ===================== SOLUÇÃO APROXIMADA =====================
         System.out.println("\n===============================================");
         System.out.println(" SOLUÇÃO APROXIMADA (Gonzalez)");
         System.out.println("===============================================");
@@ -65,8 +83,7 @@ public class Main {
                 System.out.printf(" %s -> Raio = %d | Tempo = %.3f ms | Erro = %.2f%%%n",
                         arquivo, raio, tempoMs, erro);
 
-                // --- ESCREVER RESULTADOS APROXIMADOS ---
-                bwAprox.write(String.format(Locale.US,"%s,%d,%.3f,%.3f,%s\n",
+                bwAprox.write(String.format(Locale.US, "%s,%d,%.3f,%.3f,%s\n",
                         arquivo, raio, tempoMs, erro, centros));
                 bwAprox.flush();
 
@@ -74,13 +91,13 @@ public class Main {
                 System.err.printf(" ERRO ao processar %s%n", arquivo);
 
                 try {
-                    bwAprox.write(String.format(Locale.US,"%s,-1,-1,-1,[]\n", arquivo));
+                    bwAprox.write(String.format(Locale.US, "%s,-1,-1,-1,[]\n", arquivo));
                     bwAprox.flush();
                 } catch (IOException ignored) {}
             }
         }
 
-        // SOLUÇÃO EXATA
+        // ===================== SOLUÇÃO EXATA =====================
         System.out.println("\n===============================================");
         System.out.println(" SOLUÇÃO EXATA (Enumeração Completa)");
         System.out.println("===============================================");
@@ -105,7 +122,6 @@ public class Main {
                 System.out.printf(" %s -> Raio = %d | Tempo = %.3f ms | Erro = %.2f%%%n",
                         arquivo, raio, tempoMs, erro);
 
-                // --- ESCREVER RESULTADOS EXATOS ---
                 bwExato.write(String.format(Locale.US, "%s,%d,%.3f,%.3f,%s\n",
                         arquivo, raio, tempoMs, erro, centros));
                 bwExato.flush();
@@ -114,7 +130,7 @@ public class Main {
                 System.err.printf(" ERRO ao processar %s%n", arquivo);
 
                 try {
-                    bwExato.write(String.format(Locale.US,"%s,-1,-1,-1,[]\n", arquivo));
+                    bwExato.write(String.format(Locale.US, "%s,-1,-1,-1,[]\n", arquivo));
                     bwExato.flush();
                 } catch (IOException ignored) {}
             }
@@ -131,6 +147,15 @@ public class Main {
         System.out.println("\nArquivos resultados_aprox.txt e resultados_exato.txt salvos com sucesso.");
     }
 
+    /**
+     * Calcula o erro percentual entre um valor obtido e seu valor ótimo.
+     *
+     * <p>Erro(%) = |valor - gabarito| / gabarito * 100</p>
+     *
+     * @param valor valor obtido pelo algoritmo.
+     * @param gabarito valor ótimo esperado.
+     * @return erro percentual; retorna 0 se o gabarito for zero.
+     */
     private static double calcularErroPercentual(int valor, int gabarito) {
         if (gabarito == 0) return 0.0;
         return Math.abs((valor - gabarito) / (double) gabarito) * 100.0;
