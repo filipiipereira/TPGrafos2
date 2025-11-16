@@ -1,1 +1,2 @@
 Instancia,Raio,Tempo_ms,Erro_pct,Centros
+pmed1.txt,127,45639.297,0.000,[5, 9, 57, 63, 78]
